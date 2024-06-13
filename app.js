@@ -22,8 +22,9 @@ app.get('/restaurants', (req, res) => {
         return property.toLowerCase().includes(keywords.toLowerCase())
       }
     })
-  ) : restaurants
-  res.render('index', {restaurants: matchedRestaurants})
+  ): restaurants
+  const noResultsMessage = (keywords.length > 0 && matchedRestaurants.length === 0) ? `${keywords}查詢無結果，請輸入其他關鍵字` : '';
+  res.render('index', {restaurants: matchedRestaurants, message: noResultsMessage})
   })
 
 app.get('/restaurant/:id', (req, res) => {
