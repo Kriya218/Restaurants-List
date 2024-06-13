@@ -15,10 +15,22 @@ app.get('/', (req,res) => {
 })
 
 app.get('/restaurants', (req, res) => {
-  res.render('index', {restaurants: restaurants} )
+  const keywords = req.query.keyword || '';
+  const matchedRestaurants = keywords.length > 0 ? restaurants.filter(restaurant =>
+    Object.values(restaurant).some( property => {
+      if (typeof property ==='string') {
+        return property.toLowerCase().includes(keywords.toLowerCase())
+      }
+    })
+  ) : restaurants
+  res.render('index', {restaurants: matchedRestaurants})
+  })
+
+app.get('/restaurant/:id', (req, res) => {
+  const id = req.params.id
+  const restaurant = restaurants.find((restaurant) => restaurant.id.toString() === id)
+  res.render('show', {restaurant})
 })
-
-
 
 app.listen(port, () =>{
   console.log(`Express server running on http://localhost:${port}`)

@@ -17,7 +17,7 @@
 <div class="container search-bar">
   <div class="search-bar-outer">
     <div class="search-bar-inner">
-      <form action="/search">
+      <form action="/restaurants">
         <h4 class="mb-2">尋找餐廳：</h4>
         <div class="input-group">
           <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..."
@@ -37,7 +37,7 @@
     <div class="col-md-10 col-12 mx-auto">
       <div class="row row-cols-sm-3">
         {{#each restaurants as | restaurant |}}
-        <a href="/restaurants/1" class="text-secondary">
+        <a href="/restaurant/{{restaurant.id}}" class="text-secondary">
           <div class="card mb-3">
             <img class="card-img-top" src="{{restaurant.image}}"
               alt="{{restaurant.name_en}} image">
