@@ -2,7 +2,7 @@ const express = require('express');
 const { engine } = require('express-handlebars');
 const app = express();
 const port = 3000;
-const restaurants = require('./public/jsons/restaurant.json').results
+// const restaurants = require('./public/jsons/restaurant.json').results
 const db = require('./models');
 const restaurantList = db.restaurantList;
 
@@ -32,7 +32,7 @@ app.get('/restaurants', (req, res) => {
   // res.render('index', {restaurants: matchedRestaurants, message: noResultsMessage})
   
   return restaurantList.findAll({
-    attributes: ['id', 'name','category', 'rating'],
+    attributes: ['id', 'name', 'category', 'rating', 'image'],
     raw: true
   })
     .then((restaurants) => res.render('index', { restaurants }))

@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT
   }, {
     sequelize,
+    freezeTableName: true,
     modelName: 'restaurantList',
   });
   return restaurantList;
