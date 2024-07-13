@@ -39,10 +39,13 @@ app.get('/restaurants', (req, res) => {
     .catch((err) => res.status(422).json(err))
 })
 
-app.get('/restaurant/:id', (req, res) => {
+app.get('/restaurants/:id', (req, res) => {
   const id = req.params.id
-  const restaurant = restaurants.find((restaurant) => restaurant.id.toString() === id)
-  res.render('show', {restaurant})
+  return restaurantList.findByPk(id, {
+    attributes: ['id', 'name', 'category', 'image', 'location', 'phone', 'google_map', 'description'],
+     raw:true})
+      .then((restaurant) => res.render('show', { restaurant }))
+      .catch((err) => console.log(err))
 })
 
 app.listen(port, () =>{
