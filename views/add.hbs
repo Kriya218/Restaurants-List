@@ -1,0 +1,79 @@
+<header>
+  <nav class="navbar navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
+          width="30" height="30" class="d-inline-block align-top" alt="logo">
+        我的餐廳清單
+      </a>
+    </div>
+  </nav>
+</header>
+<div class="container mt-3 col-md-7">
+  <h4>新增餐廳資訊</h4>
+  <form action="/restaurants" method="POST">
+    <div class="row g-3 mt-2 mb-2">
+      <div class="col-md-4">
+        <label for="name" class="col-form-label">餐廳名稱</label>
+        <input type="text" id="name" class="form-control" name="name"required>
+      </div>
+      <div class="col-md-4">
+        <label for="name_en" class="col-form-label">餐廳英文名稱</label>
+        <input type="text" id="name_en" class="form-control" name="name_en" required>  
+      </div>
+      <div class="col-md-4">
+        <label for="category" class="col-form-label">餐廳種類</label>
+        <input type="text" id="category" class="form-control" name="category" required>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-2">
+      <div class="col-md-6">
+        <label for="phone" class="col-form-label">餐廳電話</label>
+        <span id="passwordHelpInline" class="form-text">
+          請依照格式填寫 e.g. 02 1234 5678
+        </span>
+        <input type="tel" id="phone" class="form-control" name="phone" placeholder="02 1234 5678" pattern="[0-9]{2} [0-9]{4} [0-9]{4}">
+      </div>
+      <div class="col-md-6">
+        <label for="image" class="col-form-label">餐廳圖片網址</label>
+        <input type="url" id="image" name="image" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-2">
+      <div class="col-md-6">
+        <label for="location" class="col-form-label">餐廳地址</label>
+        <input type="text" id="location" name="location" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label for="google_map" class="col-form-label">Google地圖網址</label>
+        <input type="text" id="google_map" name="google_map" class="form-control" required>
+      </div>
+    </div>
+
+    <div class="row g-3 align-items-center mb-3 mt-2">
+      <div class="col-auto">
+        <label for="rating" class="col-form-label">餐廳評分</label>
+      </div>
+      <div class="col-auto">
+        <input type="number" id="rating" name="rating" class="form-control" min="0" max="5" step="0.1" value="0" required>
+      </div>
+      <div class="col-auto">
+        <span id="passwordHelpInline" class="form-text">
+          請為餐廳評分，滿分為5分
+        </span>
+      </div>
+    </div>
+
+    <div class="row g-3 align-items-center mb-3">
+      <div class="col-auto">
+        <label for="description" class="col-form-label">餐廳評價</label>
+      </div>
+      <div class="col-md-10">
+        <textarea type="text" id="description" name="description" class="form-control" rows="3" placeholder="服務生態度友好..." required></textarea>
+      </div>
+    </div>
+    <button type="submit" class="btn mb-3" style="background-color:#90AFC4;"><span style="color: white;">新增餐廳</span></button>
+  </form>
+</div>

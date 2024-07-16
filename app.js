@@ -2,18 +2,16 @@ const express = require('express');
 const { engine } = require('express-handlebars');
 const app = express();
 const port = 3000;
-// const restaurants = require('./public/jsons/restaurant.json').results
+
 const db = require('./models');
 const restaurantList = db.restaurantList;
-
-const fs = require('fs');
 
 app.engine('.hbs', engine({extname: '.hbs'}));
 app.set('view engine', '.hbs');
 app.set('views', './views')
 
 app.use(express.static('public'));
-
+app.use(express.urlencoded({extended: true}))
 
 app.get('/', (req,res) => {
   res.redirect('/restaurants')
@@ -38,6 +36,9 @@ app.get('/restaurants', (req, res) => {
     .then((restaurants) => res.render('index', { restaurants }))
     .catch((err) => res.status(422).json(err))
 })
+app.get('/restaurants/add', (req, res) => {
+  return res.render('add')
+})
 
 app.get('/restaurants/:id', (req, res) => {
   const id = req.params.id
@@ -46,6 +47,13 @@ app.get('/restaurants/:id', (req, res) => {
      raw:true})
       .then((restaurant) => res.render('show', { restaurant }))
       .catch((err) => console.log(err))
+})
+
+app.post('/restaurants', (req, res) => {
+  const data = req.body
+  return restaurantList.create({ name:data.name, name_en:data.name_en, category:data.category, phone:data.phone, image:data.image, location:data.location, google_map:data.google_map, rating:data.rating, description:data.description })
+    .then(() => res.redirect('/restaurants'))
+    .catch((err) => console.log(err)) 
 })
 
 app.listen(port, () =>{
