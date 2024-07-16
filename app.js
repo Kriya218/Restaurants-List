@@ -77,6 +77,12 @@ app.put('/restaurants/:id', (req, res) => {
     .then(() =>res.redirect(`/restaurants/${id}`))
 })
 
+app.delete('/restaurants/:id', (req, res) => {
+  const id = req.params.id;
+  return restaurantList.destroy({where: {id}})
+    .then(() =>res.redirect('/restaurants'))
+})
+
 app.listen(port, () =>{
   console.log(`Express server running on http://localhost:${port}`)
 })
