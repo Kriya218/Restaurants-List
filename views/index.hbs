@@ -7,7 +7,7 @@
           width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單">
         我的餐廳清單
       </a>
-      <a class="navbar-brand" href="/restaurants/add"><i class="fa fa-plus fa-xs" aria-hidden="true"></i> 新增餐廳</a>
+      <a class="navbar-brand" href="/restaurants/add"><i class="fa-solid fa-plus"></i> 新增餐廳</a>
     </div>
   </nav>
 
@@ -38,7 +38,7 @@
     <div class="col-md-10 col-12 mx-auto">
       <div class="row row-cols-sm-3">
         {{#each restaurants as | restaurant |}}
-        <a href="/restaurants/{{restaurant.id}}" class="text-secondary">
+        <div>
           <div class="card mb-3">
             <img class="card-img-top" src="{{restaurant.image}}"
               alt="{{restaurant.name_en}} image">
@@ -53,10 +53,16 @@
                 {{restaurant.rating}}
                 <i class="fas fa-star fa-xs"></i>
               </span>
-
+              <div class="card-link">
+                <a href="/restaurants/{{restaurant.id}}" class="card-link" >詳細資訊</a>
+                <a href="/restaurants/{{restaurant.id}}/edit" class="card-link" style="margin-right: 0px;">編輯資訊</a>
+                <form action="/restaurants">
+                  <button type="submit" class="btn ms-3" style="color:#4592af;">移除餐廳</button>
+                </form>                
+              </div>
             </div>
           </div>
-        </a>
+        </div>
         {{/each}}
       </div>
     </div>

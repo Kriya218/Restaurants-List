@@ -7,6 +7,14 @@
           width="30" height="30" class="d-inline-block align-top" alt="logo">
         我的餐廳清單
       </a>
+      <span class="d-flex flex-row align-items-center">        
+        <a href="/restaurants/{{restaurant.id}}/edit" class="card-link"><i class="fa-regular fa-pen-to-square fa-fw"></i> 編輯資訊</a>
+        <span>
+          <form action="/restaurants">
+            <button type="submit" class="btn ms-3" style="color:#4592af;"> <i class="fa fa-minus" aria-hidden="true"></i> 移除餐廳</button>
+          </form>
+        </span>
+      </span>      
     </div>
   </nav>
 
