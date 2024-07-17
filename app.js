@@ -20,17 +20,6 @@ app.get('/', (req,res) => {
 })
 
 app.get('/restaurants', (req, res) => {
-  // const keywords = req.query.keyword || '';
-  // const matchedRestaurants = keywords.length > 0 ? restaurants.filter(restaurant =>
-  //   Object.values(restaurant).some( property => {
-  //     if (typeof property ==='string') {
-  //       return property.toLowerCase().includes(keywords.toLowerCase())
-  //     }
-  //   })
-  // ): restaurants
-  // const noResultsMessage = (keywords.length > 0 && matchedRestaurants.length === 0) ? `${keywords}查詢無結果，請輸入其他關鍵字` : '';
-  // res.render('index', {restaurants: matchedRestaurants, message: noResultsMessage})
-  
   return restaurantList.findAll({
     attributes: ['id', 'name', 'category', 'rating', 'image'],
     raw: true
@@ -38,25 +27,46 @@ app.get('/restaurants', (req, res) => {
     .then((restaurants) => res.render('index', { restaurants }))
     .catch((err) => res.status(422).json(err))
 })
+
+app.get('/restaurants/search', (req, res) => {
+  const keywords = req.query.keyword?.replace(/\s+/g, '').toLowerCase()
+  return restaurantList.findAll({
+      attributes: ['id', 'name', 'category', 'location', 'description', 'image', 'rating'],
+      raw: true
+  })
+    .then((restaurants) => {
+      const matchedRestaurants = keywords ? restaurants.filter((rest) =>
+      Object.values(rest).some( property => {
+        if (typeof property === 'string') {
+          return property.toLowerCase().includes(keywords)
+        }
+        return false;
+        })
+        ) : []
+
+      if (matchedRestaurants.length === 0) {
+        res.render('index', { message: "查詢無結果，請輸入其他關鍵字" });
+      } else {
+        res.render('index', { restaurants:matchedRestaurants });
+      }
+    })
+    .catch((err) => console.log(err));
+  })
+
 app.get('/restaurants/add', (req, res) => {
   return res.render('add')
 })
 
 app.get('/restaurants/:id', (req, res) => {
   const id = req.params.id
-  return restaurantList.findByPk(id, {
-    attributes: ['id', 'name', 'category', 'image', 'location', 'phone', 'google_map', 'description'],
-     raw:true})
+  return restaurantList.findByPk(id, {raw:true})
       .then((restaurant) => res.render('show', { restaurant }))
       .catch((err) => console.log(err))
 })
 
 app.get('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
-  return restaurantList.findByPk(id, {
-    attributes: ['id', 'name', 'name_en', 'category', 'phone', 'image', 'location', 'google_map', 'rating', 'description'],
-    raw: true
-  })
+  return restaurantList.findByPk(id, {raw: true})
     .then((restaurant) => res.render('edit', {restaurant}))
     .catch((err) => console.log(err))
 })
@@ -80,7 +90,7 @@ app.put('/restaurants/:id', (req, res) => {
 app.delete('/restaurants/:id', (req, res) => {
   const id = req.params.id;
   return restaurantList.destroy({where: {id}})
-    .then(() =>res.redirect('/restaurants'))
+    .then(() => res.redirect('/restaurants'))
 })
 
 app.listen(port, () =>{
