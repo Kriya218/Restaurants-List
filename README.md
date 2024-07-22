@@ -1,8 +1,11 @@
-# Restaurants-List 
+# Restaurants-List 2.0 Ver.
 A simple web application for my favorite restaurants
 
 ## Features
-- Click card to get restaurant's detail information
+- Create new restaurant to list
+- Read restaurant's detail information
+- Update restaurant's data
+- Delete restaurant from list
 - Search restaurants by keywords
 
 ### Prerequisites
@@ -12,7 +15,7 @@ A simple web application for my favorite restaurants
 ### Installation and execution 
 1. Clone repo to local 複製專案到本地
 ``` 
-git clone https://github.com/Kriya218/Restaurants-List
+git clone -b Restaurants-List2.0 [https://github.com/Kriya218/Restaurants-List]
 ```
 2. Change directory to Restaurants-List 移動至專案資料夾
 ``` 
