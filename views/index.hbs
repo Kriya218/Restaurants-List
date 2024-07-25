@@ -62,8 +62,8 @@
               <div class="card-link">
                 <a href="/restaurants/{{restaurant.id}}" class="card-link" >詳細資訊</a>
                 <a href="/restaurants/{{restaurant.id}}/edit" class="card-link" style="margin-right: 0px;">編輯資訊</a>
-                <form action="/restaurants/{{restaurant.id}}?_method=DELETE" method="post">
-                  <button type="submit" class="btn ms-3" style="color:#4592af;">移除餐廳</button>
+                <form id="deleteForm" action="/restaurants/{{restaurant.id}}?_method=DELETE" method="post">
+                  <button type="button" class="btn ms-3" style="color:#4592af;" data-bs-toggle="modal" data-bs-target="#delete_warning">移除餐廳</button>
                 </form>                
               </div>
             </div>
@@ -75,3 +75,5 @@
   </div>
 </div>
 {{/if}}
+
+{{> delete-warning}}

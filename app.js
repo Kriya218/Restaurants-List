@@ -19,7 +19,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: 'thisIsSecret',
   resave: false,
   saveUninitialized: false
 }));

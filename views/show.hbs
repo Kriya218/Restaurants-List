@@ -10,8 +10,8 @@
       <span class="d-flex flex-row align-items-center">        
         <a href="/restaurants/{{restaurant.id}}/edit" class="card-link"><i class="fa-regular fa-pen-to-square fa-fw"></i> 編輯資訊</a>
         <span>
-          <form action="/restaurants/{{restaurant.id}}?_method=DELETE" method="post">
-            <button type="submit" class="btn ms-3" style="color:#4592af;"> <i class="fa fa-minus" aria-hidden="true"></i> 移除餐廳</button>
+          <form id="deleteForm" action="/restaurants/{{restaurant.id}}?_method=DELETE" method="post">
+            <button type="button" class="btn ms-3" style="color:#4592af;" data-bs-toggle="modal" data-bs-target="#delete_warning"> <i class="fa fa-minus" aria-hidden="true"></i> 移除餐廳</button>
           </form>
         </span>
       </span>      
@@ -63,3 +63,5 @@
     </div>
   </div>
 </div>
+
+{{> delete-warning}}
