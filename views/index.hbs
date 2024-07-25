@@ -31,10 +31,12 @@
   </div>
 </div>
 
+{{> message}}
+
 <!-- restaurant list -->
-{{#if message}}
+{{#if no_result_msg}}
 <div style="display: flex;">
-  <h4 style="margin:30px auto;">{{message}}</h4>
+  <h4 style="margin:30px auto;">{{no_result_msg}}</h4>
 </div>
 {{else}}
 <div class="container mt-5">
