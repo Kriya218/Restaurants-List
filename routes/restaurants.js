@@ -9,44 +9,36 @@ router.get('/', (req,res) => {
 })
 
 router.get('/restaurants', (req, res, next) => {
+  const keywords = req.query.keyword?.replace(/\s+/g, '').toLowerCase()
   return restaurantList.findAll({
     attributes: ['id', 'name', 'category', 'rating', 'image'],
     raw: true
   })
-    .then((restaurants) => res.render('index', { restaurants }))
-    .catch((error) => {
-      error.errorMessage = '資料讀取失敗'
-      next(error)
-    })
-})
-
-router.get('/restaurants/search', (req, res, next) => {
-  const keywords = req.query.keyword?.replace(/\s+/g, '').toLowerCase()
-  return restaurantList.findAll({
-      attributes: ['id', 'name', 'category', 'location', 'description', 'image', 'rating'],
-      raw: true
-  })
     .then((restaurants) => {
-      const matchedRestaurants = keywords ? restaurants.filter((rest) =>
-      Object.values(rest).some( property => {
-        if (typeof property === 'string') {
-          return property.toLowerCase().includes(keywords)
-        }
-        return false;
-        })
-        ) : []
+      if (keywords) {
+        const matchedRestaurants = restaurants.filter((rest) =>
+          Object.values(rest).some( property => {
+            if (typeof property === 'string') {
+              return property.toLowerCase().includes(keywords)
+            }
+            return false; 
+          })
+        );
 
-      if (matchedRestaurants.length === 0) {
-        res.render('index', { no_result_msg: "查詢無結果，請輸入其他關鍵字" });
+        if (matchedRestaurants.length === 0) {
+          res.render('index', { no_result_msg: "查詢無結果，請輸入其他關鍵字" });
+        } else {
+          res.render('index', { restaurants:matchedRestaurants });
+        }
       } else {
-        res.render('index', { restaurants:matchedRestaurants });
+        res.render('index', { restaurants })
       }
     })
     .catch((error) => {
-      error.errorMessage = '搜尋失敗'
+      error.errorMessage = keywords ? '搜尋失敗' : '資料讀取失敗'
       next(error)
-    });
-  })
+    })
+})
 
 router.get('/restaurants/add', (req, res) => {
   return res.render('add')
