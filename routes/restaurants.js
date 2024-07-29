@@ -9,12 +9,25 @@ router.get('/', (req,res) => {
 })
 
 router.get('/restaurants', (req, res, next) => {
-  const keywords = req.query.keyword?.replace(/\s+/g, '').toLowerCase()
-  return restaurantList.findAll({
+  const keywords = req.query.keyword?.replace(/\s+/g, '').toLowerCase();
+  const limit = 9;
+  const currentPage = parseInt(req.query.page) || 1;
+
+  return restaurantList.findAndCountAll({
     attributes: ['id', 'name', 'category', 'rating', 'image'],
+    offset: (currentPage - 1) * limit,
+    limit,
     raw: true
-  })
-    .then((restaurants) => {
+  })    
+    .then((restaurantsData) => {
+      const dataCount = restaurantsData.count;
+      const restaurants = restaurantsData.rows;
+      const totalPage = Math.ceil(dataCount / limit);      
+      const prevPage = currentPage > 1 ? currentPage - 1 : 1;
+      const nextPage = currentPage < totalPage ? currentPage + 1 : totalPage;
+      
+      const pages = Array.from({length: totalPage}, (_, i) => i+1);
+      
       if (keywords) {
         const matchedRestaurants = restaurants.filter((rest) =>
           Object.values(rest).some( property => {
@@ -24,14 +37,15 @@ router.get('/restaurants', (req, res, next) => {
             return false; 
           })
         );
-
+                
         if (matchedRestaurants.length === 0) {
           res.render('index', { no_result_msg: "查詢無結果，請輸入其他關鍵字" });
         } else {
-          res.render('index', { restaurants:matchedRestaurants });
+          res.render('index', { restaurants:matchedRestaurants, prevPage, nextPage, currentPage, pages });
         }
       } else {
-        res.render('index', { restaurants })
+        
+        res.render('index', { restaurants, prevPage, nextPage, currentPage, pages })
       }
     })
     .catch((error) => {

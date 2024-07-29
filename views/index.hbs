@@ -18,7 +18,7 @@
 <div class="container search-bar">
   <div class="search-bar-outer">
     <div class="search-bar-inner">
-      <form action="/restaurants" >
+      <form action="/restaurants">
         <h4 class="mb-2">尋找餐廳：</h4>
         <div class="input-group">
           <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳名稱、分類、地址..." aria-label="Restaurant Name..." aria-describedby="search-button">
@@ -27,8 +27,8 @@
           </div>
         </div>
       </form>
-    </div>
-  </div>
+    </div>    
+  </div>  
 </div>
 
 {{> message}}
@@ -39,15 +39,29 @@
   <h4 style="margin:30px auto;">{{no_result_msg}}</h4>
 </div>
 {{else}}
-<div class="container mt-5">
+<div class="container mt-4">
+
+  {{!-- dropdown --}}
+  <div class="dropdown d-flex mx-auto mb-4 col-md-10 justify-content-end" >
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+      aria-expanded="false">
+      Dropdown button
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <li><a class="dropdown-item" href="#">Action</a></li>
+      <li><a class="dropdown-item" href="#">Another action</a></li>
+      <li><a class="dropdown-item" href="#">Something else here</a></li>
+    </ul>
+  </div>
+
+  {{!-- list panel --}}
   <div class="row">
     <div class="col-md-10 col-12 mx-auto">
-      <div class="row row-cols-sm-3">
+      <div class="row row-cols-sm-3">        
         {{#each restaurants as | restaurant |}}
         <div>
           <div class="card mb-3">
-            <img class="card-img-top" src="{{restaurant.image}}"
-              alt="{{restaurant.name_en}} image">
+            <a href="/restaurants/{{restaurant.id}}"><img class="card-img-top" src="{{restaurant.image}}" alt="{{restaurant.name_en}} image"></a>
             <div class="card-body p-3">
               <h6 class="card-title mb-1">{{restaurant.name}}</h6>
 
@@ -73,6 +87,39 @@
       </div>
     </div>
   </div>
+
+  <!-- pagination -->
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item">
+        <form action="/restaurants" method="get">
+          <input type="hidden" name="page" value="{{prevPage}}">
+          <button type="submit" class="page-link" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </button>
+        </form>
+      </li>
+      {{#each pages}}
+      <li class="page-item">
+        <form action="/restaurants" method="get">
+          <input type="hidden" name="page" value="{{this}}">
+          <button type="submit" class="page-link" aria-label="page:{{this}}">{{this}}</button>
+        </form>  
+      </li>
+      {{/each}}
+      {{!-- <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li> --}}
+      <li class="page-item">
+        <form action="/restaurants" method="get">
+          <input type="hidden" name="page" value="{{nextPage}}">
+          <button type="submit" class="page-link" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </button>
+        </form>        
+      </li>
+    </ul>
+  </nav>
+
 </div>
 {{/if}}
 
