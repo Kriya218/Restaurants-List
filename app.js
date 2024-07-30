@@ -4,7 +4,7 @@ const app = express();
 const port = 3000;
 
 const methodOverride = require('method-override');
-const router = require('./routes/restaurants');
+const router = require('./routes');
 const session = require('express-session');
 const flash = require('connect-flash');
 const messageHandler = require('./middlewares/message-handler')

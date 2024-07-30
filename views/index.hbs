@@ -43,14 +43,18 @@
 
   {{!-- dropdown --}}
   <div class="dropdown d-flex mx-auto mb-4 col-md-10 justify-content-end" >
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-      aria-expanded="false">
-      Dropdown button
+    <button class="btn dropdown-toggle" style="color: #4592af;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="fa-solid fa-arrow-down-wide-short"></i> 排序方式
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="#">Action</a></li>
-      <li><a class="dropdown-item" href="#">Another action</a></li>
-      <li><a class="dropdown-item" href="#">Something else here</a></li>
+      <li><a class="dropdown-item" href="#" onclick="sortData('AtoZ')">依名稱: A <i class="fa-solid fa-arrow-right"></i> Z</a></li>
+      <li><a class="dropdown-item" href="#" onclick="sortData('ZtoA')">依名稱: Z <i class="fa-solid fa-arrow-right"></i> A</a></li>
+      <li><a class="dropdown-item" href="#" onclick="sortData('category')">類別</a></li>
+      <li><a class="dropdown-item" href="#" onclick="sortData('region')">地區</a></li>
+      <li><a class="dropdown-item" href="#" onclick="sortData('ratingDESC')">依評分: 高 <i class="fa-solid fa-arrow-right"></i> 低</a>
+      </li>
+      <li><a class="dropdown-item" href="#" onclick="sortData('ratingASC')">依名稱: 低 <i class="fa-solid fa-arrow-right"></i> 高</a>
+      </li>
     </ul>
   </div>
 
@@ -61,7 +65,7 @@
         {{#each restaurants as | restaurant |}}
         <div>
           <div class="card mb-3">
-            <a href="/restaurants/{{restaurant.id}}"><img class="card-img-top" src="{{restaurant.image}}" alt="{{restaurant.name_en}} image"></a>
+            <a href="/restaurants/{{restaurant.id}}"><img class="card-img" src="{{restaurant.image}}" alt="{{restaurant.name_en}} image"></a>
             <div class="card-body p-3">
               <h6 class="card-title mb-1">{{restaurant.name}}</h6>
 
@@ -107,8 +111,6 @@
         </form>  
       </li>
       {{/each}}
-      {{!-- <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li> --}}
       <li class="page-item">
         <form action="/restaurants" method="get">
           <input type="hidden" name="page" value="{{nextPage}}">

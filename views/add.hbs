@@ -24,7 +24,26 @@
       </div>
       <div class="col-md-4">
         <label for="category" class="col-form-label">餐廳種類</label>
-        <input type="text" id="category" class="form-control" name="category" required>
+        <select id="category" class="form-select" name="category" value="{{restaurant.category}}" aria-label="category select" required>
+          <option selected>餐廳種類</option>
+          <option value="台式餐廳">台式餐廳</option>
+          <option value="韓式餐廳">韓式餐廳</option>
+          <option value="日式餐廳">日式餐廳</option>
+          <option value="和風洋食">和風洋食</option>
+          <option value="義式餐廳">義式餐廳</option>
+          <option value="西式餐廳">西式餐廳</option>
+          <option value="泰式餐廳">泰式餐廳</option>
+          <option value="越式餐廳">越式餐廳</option>
+          <option value="地中海餐廳">地中海餐廳</option>
+          <option value="火鍋店">火鍋店</option>
+          <option value="燒肉店">燒肉店</option>
+          <option value="自助餐">自助餐</option>
+          <option value="烘焙坊">烘焙坊</option>
+          <option value="早午餐">早午餐</option>
+          <option value="咖啡廳">咖啡廳</option>
+          <option value="酒吧">酒吧</option>
+          <option value="冰品店">冰品店</option>
+        </select>
       </div>
     </div>
 

@@ -4,11 +4,7 @@ const router = express.Router();
 const db = require('../models');
 const restaurantList = db.restaurantList;
 
-router.get('/', (req,res) => {
-  res.redirect('/restaurants')
-})
-
-router.get('/restaurants', (req, res, next) => {
+router.get('/', (req, res, next) => {
   const keywords = req.query.keyword?.replace(/\s+/g, '').toLowerCase();
   const limit = 9;
   const currentPage = parseInt(req.query.page) || 1;
@@ -54,11 +50,11 @@ router.get('/restaurants', (req, res, next) => {
     })
 })
 
-router.get('/restaurants/add', (req, res) => {
+router.get('/add', (req, res) => {
   return res.render('add')
 })
 
-router.get('/restaurants/:id', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   const id = req.params.id
   return restaurantList.findByPk(id, {raw:true})
       .then((restaurant) => res.render('show', { restaurant }))
@@ -68,7 +64,7 @@ router.get('/restaurants/:id', (req, res, next) => {
       })
 })
 
-router.get('/restaurants/:id/edit', (req, res, next) => {
+router.get('/:id/edit', (req, res, next) => {
   const id = req.params.id
   return restaurantList.findByPk(id, {raw: true})
     .then((restaurant) => res.render('edit', {restaurant}))
@@ -78,7 +74,7 @@ router.get('/restaurants/:id/edit', (req, res, next) => {
     })
 })
 
-router.post('/restaurants', (req, res, next) => {
+router.post('/', (req, res, next) => {
   const {name, name_en, category, phone, image, location, google_map, rating, description} = req.body
   return restaurantList.create({name, name_en, category, phone, image, location, google_map, rating, description})
     .then(() => res.redirect('/restaurants'))
@@ -88,7 +84,7 @@ router.post('/restaurants', (req, res, next) => {
     }) 
 })
 
-router.put('/restaurants/:id', (req, res, next) => {
+router.put('/:id', (req, res, next) => {
   const id = req.params.id;
   const {name, name_en, category, phone, image, location, google_map, rating, description} = req.body
   return restaurantList.update(
@@ -101,7 +97,7 @@ router.put('/restaurants/:id', (req, res, next) => {
     })
 })
 
-router.delete('/restaurants/:id', (req, res, next) => {
+router.delete('/:id', (req, res, next) => {
   const id = req.params.id;
   return restaurantList.destroy({where: {id}})
     .then(() => res.redirect('/restaurants'))
