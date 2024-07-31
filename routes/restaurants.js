@@ -1,21 +1,57 @@
 const express = require('express');
 const router = express.Router();
 
+const Op = require('sequelize').Op;
+
 const db = require('../models');
 const restaurantList = db.restaurantList;
 
 router.get('/', (req, res, next) => {
-  const keywords = req.query.keyword?.replace(/\s+/g, '').toLowerCase();
   const limit = 9;
+  const sort = req.query.sort;
   const currentPage = parseInt(req.query.page) || 1;
+  
+  // 取得排序條件
+  let condition = []
+  switch (sort) {
+    case 'ASC':
+    case 'DESC':
+      condition = [[ 'name', sort ]]
+      break;
+    case 'category':
+    case 'location':
+      condition = [[ sort ]]
+      break;
+    case 'rating_DESC':
+      condition = [[ 'rating', 'DESC' ]]
+      break;
+    case 'rating_ASC':
+      condition = [[ 'rating', 'ASC' ]]
+      break;
+  }
+
+  //取得 keyword
+  const keywords = req.query.keywords?.replace(/\s+/g, '').toLowerCase();
+  const whereCondition = keywords ? {
+    [Op.or]: [
+      {name: { [Op.like]: `%${keywords}%` }},
+      {name_en: { [Op.like]: `%${keywords}%` }},
+      {category: { [Op.like]: `%${keywords}%` }},
+      {location: { [Op.like]: `%${keywords}%` }},
+      {description: { [Op.like]: `%${keywords}%` }},
+    ]
+  } : {}
 
   return restaurantList.findAndCountAll({
-    attributes: ['id', 'name', 'category', 'rating', 'image'],
+    attributes: ['id', 'name', 'name_en', 'category','location', 'rating', 'image', 'description'],
+    where: whereCondition,
+    order: condition,
     offset: (currentPage - 1) * limit,
     limit,
     raw: true
   })    
     .then((restaurantsData) => {
+      console.log('restaurantsData:', restaurantsData)
       const dataCount = restaurantsData.count;
       const restaurants = restaurantsData.rows;
       const totalPage = Math.ceil(dataCount / limit);      
@@ -24,24 +60,15 @@ router.get('/', (req, res, next) => {
       
       const pages = Array.from({length: totalPage}, (_, i) => i+1);
       
-      if (keywords) {
-        const matchedRestaurants = restaurants.filter((rest) =>
-          Object.values(rest).some( property => {
-            if (typeof property === 'string') {
-              return property.toLowerCase().includes(keywords)
-            }
-            return false; 
-          })
-        );
-                
-        if (matchedRestaurants.length === 0) {
+      if (keywords) {                        
+        if (restaurants.length === 0) {
           res.render('index', { no_result_msg: "查詢無結果，請輸入其他關鍵字" });
         } else {
-          res.render('index', { restaurants:matchedRestaurants, prevPage, nextPage, currentPage, pages });
+          res.render('index', { restaurants, prevPage, nextPage, page:currentPage, pages, sort, keywords });
         }
       } else {
         
-        res.render('index', { restaurants, prevPage, nextPage, currentPage, pages })
+        res.render('index', { restaurants, prevPage, nextPage, page:currentPage, pages, sort })
       }
     })
     .catch((error) => {

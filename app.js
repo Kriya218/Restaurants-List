@@ -1,5 +1,7 @@
 const express = require('express');
 const { engine } = require('express-handlebars');
+const handlebars = require('handlebars');
+
 const app = express();
 const port = 3000;
 
@@ -9,6 +11,10 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const messageHandler = require('./middlewares/message-handler')
 const errorHandler = require('./middlewares/error-handler');
+
+handlebars.registerHelper('eq', (arg1,arg2) => {
+  return arg1 === arg2
+})
 
 app.engine('.hbs', engine({extname: '.hbs'}));
 app.set('view engine', '.hbs');

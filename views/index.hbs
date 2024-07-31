@@ -21,7 +21,8 @@
       <form action="/restaurants">
         <h4 class="mb-2">尋找餐廳：</h4>
         <div class="input-group">
-          <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳名稱、分類、地址..." aria-label="Restaurant Name..." aria-describedby="search-button">
+          <input type="hidden" name="page" value="{{page}}">
+          <input type="text" name="keywords" class="form-control" placeholder="輸入餐廳名稱、分類" aria-label="Restaurant Name..." aria-describedby="search-button" value="{{keywords}}">
           <div class="input-group-append">
             <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
           </div>
@@ -41,21 +42,21 @@
 {{else}}
 <div class="container mt-4">
 
-  {{!-- dropdown --}}
+  {{!-- sort dropdown --}}
   <div class="dropdown d-flex mx-auto mb-4 col-md-10 justify-content-end" >
-    <button class="btn dropdown-toggle" style="color: #4592af;" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="fa-solid fa-arrow-down-wide-short"></i> 排序方式
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="#" onclick="sortData('AtoZ')">依名稱: A <i class="fa-solid fa-arrow-right"></i> Z</a></li>
-      <li><a class="dropdown-item" href="#" onclick="sortData('ZtoA')">依名稱: Z <i class="fa-solid fa-arrow-right"></i> A</a></li>
-      <li><a class="dropdown-item" href="#" onclick="sortData('category')">類別</a></li>
-      <li><a class="dropdown-item" href="#" onclick="sortData('region')">地區</a></li>
-      <li><a class="dropdown-item" href="#" onclick="sortData('ratingDESC')">依評分: 高 <i class="fa-solid fa-arrow-right"></i> 低</a>
-      </li>
-      <li><a class="dropdown-item" href="#" onclick="sortData('ratingASC')">依名稱: 低 <i class="fa-solid fa-arrow-right"></i> 高</a>
-      </li>
-    </ul>
+    <form action="/restaurants" id="sortForm">
+      <input type="hidden" name="page" value="{{page}}">
+      <select id="sort" class="form-select" style="color:#4592af;" name="sort" aria-label="sort select" onchange="document.getElementById('sortForm').submit()">
+        <option selected disabled>排序方式</option>
+        <option value="none" {{#if (eq sort 'none')}}selected{{/if}}>不排序</option>
+        <option value="ASC" {{#if (eq sort 'ASC')}}selected{{/if}}>名稱: A➝Z</option>
+        <option value="DESC" {{#if (eq sort 'DESC')}}selected{{/if}}>名稱: Z➝A</option>
+        <option value="category" {{#if (eq sort 'category')}}selected{{/if}}>餐廳種類</option>
+        <option value="location" {{#if (eq sort 'location')}}selected{{/if}}>地區</option>
+        <option value="rating_DESC" {{#if (eq sort 'rating_DESC')}}selected{{/if}}>評分: 高➝低</option>
+        <option value="rating_ASC" {{#if (eq sort 'rating_ASC')}}selected{{/if}}>評分: 低➝高</option>
+      </select>
+    </form>
   </div>
 
   {{!-- list panel --}}
@@ -97,6 +98,8 @@
     <ul class="pagination justify-content-center">
       <li class="page-item">
         <form action="/restaurants" method="get">
+          <input type="hidden" name="keywords" value="{{keywords}}">
+          <input type="hidden" name="sort" value="{{sort}}">
           <input type="hidden" name="page" value="{{prevPage}}">
           <button type="submit" class="page-link" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
@@ -106,6 +109,8 @@
       {{#each pages}}
       <li class="page-item">
         <form action="/restaurants" method="get">
+          <input type="hidden" name="keywords" value="{{@root.keywords}}">
+          <input type="hidden" name="sort" value="{{@root.sort}}">
           <input type="hidden" name="page" value="{{this}}">
           <button type="submit" class="page-link" aria-label="page:{{this}}">{{this}}</button>
         </form>  
@@ -113,6 +118,8 @@
       {{/each}}
       <li class="page-item">
         <form action="/restaurants" method="get">
+          <input type="hidden" name="keywords" value="{{keywords}}">
+          <input type="hidden" name="sort" value="{{sort}}">
           <input type="hidden" name="page" value="{{nextPage}}">
           <button type="submit" class="page-link" aria-label="Next">
             <span aria-hidden="true">&raquo;</span>
