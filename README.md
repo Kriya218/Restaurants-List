@@ -1,13 +1,29 @@
 # Restaurants-List 
-A simple web application for my favorite restaurants
+透過Node.js建立的伺服器，搭配Express及Handlebars形成的簡易餐廳清單紀錄網頁
 
 ## Features
-- Click card to get restaurant's detail information
-- Search restaurants by keywords
+- 指定清單中餐廳排序方式
+- 透過關鍵字查詢餐廳
+- 檢視餐廳詳細資訊
+- 新增餐廳
+- 編輯餐廳資訊
+- 刪除餐廳
+
+## Version
+- v2.1 (24.08.01)
+  - 重構路由並建立路由模組
+  - 優化資料庫處理
+  - 新增分頁及操作結果顯示
+  - 新增排序功能
+- v2.0 (24.07.22)
+  - 新增頁面 CRUD 功能
+  - 加入 MySQL 資料庫
+- v1.0
 
 ### Prerequisites
 - __[Express](https://www.npmjs.com/package/express)__
 - __[Express Handlebars](https://www.npmjs.com/package/express-handlebars)__
+- __[MySQL(v8.0.37)](https://www.mysql.com/downloads/)__
 
 ### Installation and execution 
 1. Clone repo to local 複製專案到本地
