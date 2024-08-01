@@ -32,15 +32,18 @@ router.get('/:id/edit', restaurantHandler.editById, (req, res, next) => {
 })
 
 router.post('/', restaurantHandler.create, (req, res, next) => {
+  req.flash('success', '新增成功')
   res.redirect('/restaurants')
 })
 
 router.put('/:id', restaurantHandler.update, (req, res, next) => {
   const { id } = req;
+  req.flash('success', '編輯成功')
   res.redirect(`/restaurants/${id}`)
 })
 
 router.delete('/:id', restaurantHandler.delete, (req, res, next) => {
+  req.flash('success', '刪除成功')
   res.redirect('/restaurants');
 })
 

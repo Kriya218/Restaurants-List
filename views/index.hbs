@@ -12,6 +12,7 @@
   </nav>
 
   <div class="banner"></div>
+  
 </header>
 
 <!-- search bar -->
@@ -32,7 +33,6 @@
   </div>  
 </div>
 
-{{> message}}
 
 <!-- restaurant list -->
 {{#if no_result_msg}}
@@ -62,7 +62,12 @@
   {{!-- list panel --}}
   <div class="row">
     <div class="col-md-10 col-12 mx-auto">
-      <div class="row row-cols-sm-3">        
+      <div class="d-flex justify-content-center">
+        {{> message}}
+      </div>
+      
+      <div class="row row-cols-sm-3">
+        
         {{#each restaurants as | restaurant |}}
         <div>
           <div class="card mb-3">

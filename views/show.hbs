@@ -8,17 +8,19 @@
         我的餐廳清單
       </a>
       <span class="d-flex flex-row align-items-center">        
+        <a href="/restaurants/" class="card-link"><i class="fa-solid fa-house"></i> 返回首頁</a>
         <a href="/restaurants/{{restaurant.id}}/edit" class="card-link"><i class="fa-regular fa-pen-to-square fa-fw"></i> 編輯資訊</a>
         <span>
           <form id="deleteForm" action="/restaurants/{{restaurant.id}}?_method=DELETE" method="post">
             <button type="button" class="btn ms-3" style="color:#4592af;" data-bs-toggle="modal" data-bs-target="#delete_warning"> <i class="fa fa-minus" aria-hidden="true"></i> 移除餐廳</button>
           </form>
-        </span>
+        </span>        
+        <span>
       </span>      
     </div>
   </nav>
-
   <div class="banner"></div>
+
 </header>
 
 <h1 class="mb-1 restaurant-show-title">{{restaurant.name}}</h1>
