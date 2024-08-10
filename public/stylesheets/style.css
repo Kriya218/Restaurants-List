@@ -50,6 +50,21 @@ header {
   border-color: #ced4da;
 }
 
+.inline-with-text {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px auto;
+}
+
+.inline-with-text::before,
+.inline-with-text::after {
+  content: " ";
+  flex: 1;
+  border-bottom: 1px solid lightgray;
+  margin: 0 10px;
+}
+
 .card {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
