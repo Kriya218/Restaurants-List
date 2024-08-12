@@ -5,7 +5,7 @@ const restaurantHandler = require('../middlewares/restaurants-handler')
 
 router.get('/', restaurantHandler.getAll, (req, res, next) => {
   const {keywords, restaurants, prevPage, nextPage, currentPage, pages, sort} = req
-
+  console.log('req.user:', req.user)
   if (keywords) {                        
     if (restaurants.length === 0) {
       res.render('index', { no_result_msg: "查詢無結果，請輸入其他關鍵字" });

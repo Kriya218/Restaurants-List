@@ -1,17 +1,19 @@
 const express = require('express');
+const flash = require('connect-flash');
+const session = require('express-session');
+const app = express();
+
 const { engine } = require('express-handlebars');
+const methodOverride = require('method-override');
 const handlebars = require('handlebars');
 
-const app = express();
-const port = 3000;
-
-const methodOverride = require('method-override');
 const router = require('./routes');
-const session = require('express-session');
-const flash = require('connect-flash');
-const messageHandler = require('./middlewares/message-handler')
-const errorHandler = require('./middlewares/error-handler');
 const passport = require('passport');
+
+const messageHandler = require('./middlewares/message-handler');
+const errorHandler = require('./middlewares/error-handler');
+
+const port = 3000;
 
 handlebars.registerHelper('eq', (arg1,arg2) => {
   return arg1 === arg2
