@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt= require('bcryptjs');
 
 const db = require('../models');
 const User = db.User;
@@ -23,14 +24,13 @@ router.post('/', (req, res, next) => {
         return res.redirect('back')
       };
 
-      return User.create({ name, email, password })
+      return bcrypt.hash(password, 10)
+        .then((hash) => User.create({ name, email, password: hash }))
     })
     .then ((user) => {
-      if (!user) {
-        return res.redirect('back')
-      }
+      if (!user) { res.redirect('back') } 
       req.flash('success', '註冊成功');
-      return res.redirect('/login');
+      res.redirect('/login');
     })  
     .catch((error) => {
       error.errorMessage = '註冊失敗';

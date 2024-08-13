@@ -23,7 +23,8 @@ router.get('/add', (req, res) => {
 
 router.get('/:id', restaurantHandler.getById, (req, res, next) => {
   const {restaurant} = req;
-  res.render('show', { restaurant });
+  
+  res.render('show', { restaurant });  
 })
 
 router.get('/:id/edit', restaurantHandler.editById, (req, res, next) => {
