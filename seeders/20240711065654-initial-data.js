@@ -29,8 +29,18 @@ module.exports = {
         }
       ], { transaction }
       )
-      let data = JSON.parse(fs.readFileSync('./public/jsons/restaurant.json', 'utf-8')).results
-      await queryInterface.bulkInsert('restaurantList', data, { transaction });
+      const restaurants = JSON.parse(fs.readFileSync('./public/jsons/restaurant.json', 'utf-8')).results
+      await queryInterface.bulkInsert('restaurantList',
+         restaurants.map((restaurants, i) => {
+          if (i >=0 && i <=2) {
+            return {...restaurants, createdAt: new Date(), updatedAt: new Date(), userId: 1}
+          }
+          if (i >=3 && i <=5) {
+            return {...restaurants, createdAt: new Date(), updatedAt: new Date(), userId: 2}
+          }
+         })) 
+
+      await transaction.commit()
     } catch (error) {
       if (transaction) await transaction.rollback()
     }
