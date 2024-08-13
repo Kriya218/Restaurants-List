@@ -2,6 +2,8 @@
 透過Node.js建立的伺服器，搭配Express及Handlebars形成的簡易餐廳清單紀錄網頁
 
 ## Features
+- 透過email註冊會員
+- 透過facebook登入
 - 指定清單中餐廳排序方式
 - 透過關鍵字查詢餐廳
 - 檢視餐廳詳細資訊
@@ -10,6 +12,10 @@
 - 刪除餐廳
 
 ## Version
+- v2.2 (24.08.13)
+  - 新增登入驗證流程
+  - 新增email註冊功能及facebook登入功能
+  - 使用環境變數儲存重要資訊
 - v2.1 (24.08.01)
   - 重構路由並建立路由模組
   - 優化資料庫處理
@@ -42,3 +48,6 @@ npm install
 ``` 
 npm run dev 
 ```
+
+### Author
+__[Kriya](https://github.com/Kriya218)__
